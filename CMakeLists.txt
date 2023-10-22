@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(Voltmeter LANGUAGES C CXX
+project(voltmeter LANGUAGES C CXX
     VERSION 1.0.0
 )
 
