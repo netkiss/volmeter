@@ -31,13 +31,13 @@ int main(int argc, char *argv[])
 
   if (mb == NULL)
   {
-    cerr << "Error" << endl;
+    cerr << "ERR1" << endl;
     exit(EXIT_FAILURE);
   }
 
   if (modbus_connect(mb) != 0)
   {
-    cerr << "Error" << endl;
+    cerr << "ERR2" << endl;
     modbus_free(mb);
     exit(EXIT_FAILURE);
   }
@@ -48,14 +48,32 @@ int main(int argc, char *argv[])
     uint16_t answer = 0;
   
     
-    if(modbus_read_registers(mb, 30005, 1, &answer) >= 0)
+    if(modbus_read_registers(mb, 30005, 1, &answer) < 0)
     {
-      cout << answer/10 << "B";
+      cerr << "ERR3" << endl;
       modbus_close(mb);
       modbus_free(mb);
       exit(EXIT_FAILURE);
     }
-    else cerr << "Error" << argv[1] << endl;
+
+    if(answer>120) // If we are using grid power
+    {
+      // Show grid voltage
+      cout << answer/10 << "B";
+    }
+    else
+    {
+      // Check and show accumulator voltage
+      if(modbus_read_registers(mb, 30014, 1, &answer) < 0)
+      {
+        cerr << "ERR4" << endl;
+        modbus_close(mb);
+        modbus_free(mb);
+        exit(EXIT_FAILURE);
+      }
+
+      cout << answer/10 << "," << answer%10 << "B";
+    }
 
     modbus_close(mb);
     modbus_free(mb);
