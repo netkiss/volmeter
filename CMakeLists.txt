@@ -26,8 +26,8 @@ endif(WIN32 OR WIN32_CROSS_COMPILE)
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
-set(CMAKE_CXX_FLAGS "-std=c++1y -Wall -Os -flto -g3")
-set(CMAKE_C_FLAGS "-Wall -Os -flto -g3")
+set(CMAKE_CXX_FLAGS "-std=c++1y -Wall -Og -g3")
+set(CMAKE_C_FLAGS "-Wall -Og -g3")
 
 if(WIN32 OR WIN32_CROSS_COMPILE)
     # Only Winwods need

@@ -16,10 +16,29 @@ using namespace std;
 
 modbus_t *mb;
 modbus_rtu_t *ctx_rtu;
+volatile int super_var = 0xABCD;
+
+struct testType
+{
+  float floatTest=0.12345;
+  bool boolTest=false;
+  int intTest=100;
+};
+
+volatile static testType testVar[3]; 
+
 
 int main(int argc, char *argv[])
 {
   uint16_t devnull; // мусорка для dummy read
+
+  while(1) 
+  {
+    sleep(1);
+    super_var++;
+    testVar[0].intTest++;
+    testVar[2].intTest+=10;
+  }
 
   mb = modbus_new_rtu(argv[1], 9600, 'N', 8, 1); // Параметры из командной строки
 

@@ -1,6 +1,33 @@
 {
     "configurations": [
         {
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/voltmeter",
+            "name": "Debug with OpenOCD",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "configFiles": [],
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "raw",
+            "gdbTarget": "localhost:12345",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "overrideAttachCommands": [
+                "file ${workspaceFolder}/build/voltmeter",
+                "set debug remote 1",
+                "set verbose on",
+                "set mem inaccessible-by-default off",
+                "-enable-pretty-printing",
+                "set stack-cache on",
+                "set remote interrupt-on-connect off",
+                "set remotetimeout 60000"
+            ]
+        },
+        {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
@@ -25,7 +52,41 @@
                     "ignoreFailures": true
                 }
             ]
-        }
+        },
+        {
+            "name": "Debug CH32",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceFolder}/build/voltmeter",
+            "request": "launch",
+            "type": "cppdbg",
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "raw",
+            "gdbTarget": "localhost:1234",
+        },
+        {
+            // for Linux
+            "name": "(gdb) Launch cunit",
+            "type": "cppdbg",
+            "miDebuggerServerAddress": "localhost:1234",
+            "miDebuggerPath": "gdb",
+            "useExtendedRemote": true,
+            "request": "launch",
+            "program": "${workspaceRoot}/build/voltmeter",
+            "args": ["/dev/CH340"],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+              {
+                "description": "Enable pretty-printing for gdb",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+              }
+            ]            
+          }
     ],
     "version": "2.0.0"
 }

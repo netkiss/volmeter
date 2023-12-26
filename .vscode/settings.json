@@ -2,5 +2,7 @@
     "files.associations": {
         "unordered_set": "cpp",
         "iostream": "cpp"
-    }
+    },
+    "cortex-debug.gdbPath.linux": "/usr/bin/gdb"
+    // "debug.inlineValues": "on",
 }
